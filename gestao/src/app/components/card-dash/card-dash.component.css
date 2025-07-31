@@ -1,0 +1,34 @@
+.card-dash {
+  width: 200px;
+  padding: 16px;
+  border-radius: 3px;
+  background-color: #4CAF50; /* fallback se ngStyle falhar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: white;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.card-dash:hover {
+  transform: scale(1.03);
+}
+
+.valor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.titulo-card {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 500;
+  color: #f0f0f0;
+}
+
+.valor {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 8px 0 0;
+  color: white;
+}
