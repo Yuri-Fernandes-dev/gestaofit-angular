@@ -1,0 +1,41 @@
+.nav-container, nav {
+    display: flex;
+    gap: 10px;
+    background-color: #4488D6;
+    padding: 1px 3px; /* corrigi: estava "px" vazio */
+    padding-bottom: 3px;
+    padding-top: 1px;
+    padding-left: 3px;
+    
+}
+
+.box {
+    display: flex;
+    background-color: #1565C0;
+    width: 120px;
+    padding: 7px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px black;
+    font-size: 15px;
+    align-items: center; /* centraliza ícone e texto verticalmente */
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.nome-menu {
+    margin-left: 5px;
+    padding-top: 1px;
+}
+
+/* Remove underline e ajusta cor dos links no hover */
+.nav-link {
+    color: white !important;
+    padding: 0 !important;
+}
+
+.nav-link:hover .box {
+    background-color: #0d47a1;
+}
