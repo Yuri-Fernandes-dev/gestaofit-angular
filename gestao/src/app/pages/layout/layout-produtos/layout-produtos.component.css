@@ -1,0 +1,35 @@
+.container {
+    margin-top: 3%;
+    box-shadow: 0.5px 0.2px 1.5px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.btns-menus {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+    padding-top: 3px;
+}
+
+.buscar {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+input {
+    width: 100%;
+    border: none;
+    background-color: #ECECEC;
+    border-radius: 5px;
+}
+td{
+    font-size: 13px;
+}
+
+.btns-crud{
+    display: flex;
+    gap: 10px;
+}

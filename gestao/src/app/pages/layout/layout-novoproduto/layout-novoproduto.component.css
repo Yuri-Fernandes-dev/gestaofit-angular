@@ -1,0 +1,60 @@
+.container {
+    margin-top: 3%;
+    box-shadow: 0.5px 0.2px 1.5px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+}
+.btns-menus {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+    padding-top: 3px;
+}
+.titulo{
+    margin-top: 20px;
+}
+input{
+    font-size: 13px;
+    border-radius: 3px;
+    border: none;
+    background-color: #ECECEC;
+    padding-left: 5px;
+}
+.linha-inputs{
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+#nome{
+    width: 90%;
+}
+#descricao{
+    width: 90%;
+}
+.imagem-produto{
+
+    margin-top: 15px;
+    display: flex;
+  
+    align-items: center;
+}
+.imagem-produto, img{
+    width: 90px;
+}
+span{
+    display: flex;
+    justify-content: flex-end;
+    
+}
+strong{
+    color: green;
+}
+.btns-cadastrar{
+    display: flex;
+    gap: 10px;
+}
+
+
+
+

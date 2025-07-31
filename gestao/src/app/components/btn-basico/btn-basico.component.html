@@ -1,0 +1,7 @@
+<a *ngIf="rota; else btnPadrao" [routerLink]="[rota]" id="btnn">
+  {{ nome_btn }}
+</a>
+
+<ng-template #btnPadrao>
+  <button  id="btnn">{{ nome_btn }}</button>
+</ng-template>

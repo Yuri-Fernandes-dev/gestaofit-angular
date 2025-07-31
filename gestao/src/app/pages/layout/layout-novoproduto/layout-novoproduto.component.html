@@ -1,0 +1,74 @@
+<app-barra-principal />
+
+<div class="container">
+      <div class="btns-menus">
+        <app-btn-basico [nome_btn]="'Produtos'" [rota]="'/produtos'"></app-btn-basico>
+        <app-btn-basico [nome_btn]="'Novo Produto'" [rota]="'/novoproduto'"></app-btn-basico>
+        <app-btn-basico [nome_btn]="'Categorias'" [rota]="'/categorias'"></app-btn-basico>
+    </div>
+
+    <div class="titulo">
+      <h4>Cadastrar Produtos</h4> 
+
+
+    </div>
+   <form action="">
+     <div class="linha-inputs">
+      <input type="text" placeholder="Código">
+      <input type="text" placeholder="(Custo do produto)">
+      <input type="text" placeholder="Preço à vender">
+    </div>
+
+    <div class="linha-inputs">
+      
+      <input type="text" placeholder="Nome do produto" id="nome">
+    </div>
+
+    <div class="linha-inputs">
+      <input type="text" placeholder="Marca">
+      <input type="text" placeholder="Validade">
+    </div>
+
+    <div class="linha-inputs">
+      <input type="text" placeholder="Descrição do produto" id="descricao">
+      
+    </div>
+
+     <div class="linha-inputs">
+      <input type="text" placeholder="Categoria">
+      <input type="text" placeholder="Tamanho">
+    </div>
+
+     <div class="linha-inputs">
+      <input type="text" placeholder="Estoque">
+      <input type="text" placeholder="Cor">
+
+     
+      
+    </div>
+ 
+    
+
+     <div class="imagem-produto">
+        <img src="https://atacadaomaromba.com/wp-content/uploads/2024/11/Copia-de-Copia-de-Copia-de-Copia-de-Copia-de-Design-sem-nome-88-copiar.webp" alt="">
+
+        <div class="btns-cadastrar">
+          <app-btn-basico [nome_btn]="'Selecionar'"></app-btn-basico>
+
+        <app-btn-basico [nome_btn]="'Cadastrar'"></app-btn-basico>
+
+        </div>
+        
+
+      </div>
+      
+
+    
+
+
+   </form>
+
+   <span>Estimativa de Lucro: <strong> R$ 2.950,45</strong></span>
+    
+
+</div>
