@@ -1,7 +1,17 @@
-.container {
+
+.container{
     width: 250px;
+    box-shadow: 1px 1px 3px black;
+    background-color: white;
+    border-radius: 4px;
+    padding: 5px;
+
+    margin-top: 15%;
 
 
+}
+.container-login{
+    padding: 5px;
 }
 
 .titulo {

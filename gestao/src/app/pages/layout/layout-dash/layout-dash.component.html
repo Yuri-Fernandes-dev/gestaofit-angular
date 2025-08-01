@@ -1,35 +1,67 @@
-<app-barra-principal> </app-barra-principal>
+<app-barra-principal></app-barra-principal>
 
 <div class="container">
-    <div class="container-cards">
+  <div class="container-cards">
     <app-card-dash
-  [titulo_card]="'Total de vendas'"
-  [valor_card]="'1.240,00'"
-  [bg_card]="'#00BF63'">
-</app-card-dash>
-
-  <app-card-dash
-  [titulo_card]="'Despesas'"
-  [valor_card]="'3.500,46'"
-  [bg_card]="'#FFBD59'">
-</app-card-dash>
+      [titulo_card]="'Total de vendas'"
+      [valor_card]="'1.240,00'"
+      [bg_card]="'#00BF63'">
+    </app-card-dash>
 
     <app-card-dash
-  [titulo_card]="'Custo Unitários'"
-  [valor_card]="'1.240,00'"
-  [bg_card]="'#FF3131'">
-</app-card-dash>
+      [titulo_card]="'Despesas'"
+      [valor_card]="'3.500,46'"
+      [bg_card]="'#FFBD59'">
+    </app-card-dash>
 
-  <app-card-dash
-  [titulo_card]="'Lucro'"
-  [valor_card]="'3.500,46'"
-  [bg_card]="'#38B6FF'">
-</app-card-dash>
+    <app-card-dash
+      [titulo_card]="'Custo Unitários'"
+      [valor_card]="'1.240,00'"
+      [bg_card]="'#FF3131'">
+    </app-card-dash>
 
+    <app-card-dash
+      [titulo_card]="'Lucro'"
+      [valor_card]="'3.500,46'"
+      [bg_card]="'#38B6FF'">
+    </app-card-dash>
+  </div>
 
+  <div class="filter-container">
+    <h3>Filtro de Período</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Data Início</mat-label>
+      <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="filterData()" placeholder="Escolha a data inicial">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Data Fim</mat-label>
+      <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="filterData()" placeholder="Escolha a data final">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
 
+  <div class="container-charts" *ngIf="isBrowser">
+    <div class="chart-card">
+      <h3>Distribuição de Vendas por Categoria</h3>
+      <canvas baseChart
+              [data]="pieChartData"
+              [type]="'pie'"
+              [options]="pieChartOptions"
+              height="300">
+      </canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Vendas Mensais</h3>
+      <canvas baseChart
+              [data]="barChartData"
+              [type]="'bar'"
+              [options]="barChartOptions"
+              height="300">
+      </canvas>
+    </div>
+  </div>
 </div>
-    
-</div>
-
-

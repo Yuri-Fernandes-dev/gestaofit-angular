@@ -2,6 +2,10 @@
   width: 450px;
   margin: auto;
   padding: 20px;
+
+  background-color: white;
+  box-shadow: 1px 1px 3px;
+  margin-top: 4%;
   
  
   border-radius: 8px;
