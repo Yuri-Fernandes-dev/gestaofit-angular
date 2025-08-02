@@ -10,5 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './layout-cadastro.component.css'
 })
 export class LayoutCadastroComponent {
+onSubmit() {
+throw new Error('Method not implemented.');
+}
 
 }

@@ -1,0 +1,27 @@
+h2 {
+  font-weight: bold;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+}
+
+.card-text {
+  font-size: 1.25rem;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+button i {
+  pointer-events: none;
+}
+#caard{
+  height: 91px;
+
+}

@@ -1,21 +1,23 @@
-
 <div class="container">
   <div class="container-login">
-  <div class="titulo">
-    <h1>Entrar</h1>
-    <a [routerLink]="'/cadastro'"><span>Cadastrar / Esqueci a senha</span></a>
+    <div class="titulo">
+      <h1>Bem-vindo</h1>
+      <p>Entre com suas credenciais</p>
+      <a [routerLink]="'/cadastro'">Cadastrar-se / Esqueceu a senha?</a>
+    </div>
+
+    <form class="input-dados" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="usuario">E-mail ou Nome de usuário</label>
+        <input id="usuario" type="text" placeholder="ex: lojista@email.com" required>
+      </div>
+
+      <div class="input-group">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit">Entrar</button>
+    </form>
   </div>
-
-  <form class="input-dados">
-    <label for="usuario">EMAIL / NOME DE USUÁRIO</label>
-    <input id="usuario" type="text" placeholder="Lojista123" required>
-
-    <label for="senha">SENHA</label>
-    <input id="senha" type="password" placeholder="***" required>
-
-    <button type="submit">Entrar</button>
-  </form>
-</div>
-
-
 </div>

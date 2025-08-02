@@ -1,1 +1,91 @@
 <app-barra-principal></app-barra-principal>
+<div class="container mt-4">
+  <h2 class="mb-3">Despesas da Loja</h2>
+
+  <!-- Cards com KPIs -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Total do Mês</h5>
+          <p class="card-text">R$ {{ totalMesAtual.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-info mb-3">
+        <div class="card-body" id="caard">
+          <h5 class="card-title">Economia do Mês</h5>
+          <p class="card-text">
+            R$ {{ economiaMes.valor.toFixed(2) }} ({{ economiaMes.percentual }}%)
+          </p>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Média por Dia</h5>
+          <p class="card-text">R$ {{ mediaPorDia.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <input type="month" class="form-control" [(ngModel)]="mesSelecionado">
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="categoriaSelecionada">
+        <option value="">Todas Categorias</option>
+        <option *ngFor="let cat of categorias">{{cat}}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Buscar por descrição..." [(ngModel)]="filtroDescricao">
+    </div>
+    <div class="col-md-3 text-end">
+      <button class="btn btn-outline-success" (click)="abrirModal()">
+        <i class="bi bi-plus-circle"></i> Nova Despesa
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Data</th>
+          <th>Categoria</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Fornecedor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let despesa of despesasFiltradas()">
+          <td>{{despesa.data}}</td>
+          <td>{{despesa.categoria}}</td>
+          <td>{{despesa.descricao}}</td>
+          <td>R$ {{despesa.valor.toFixed(2)}}</td>
+          <td>{{despesa.fornecedor}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-1" (click)="editarDespesa(despesa)">
+              <i class="bi bi-pencil"></i> Editar
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="excluirDespesa(despesa.id)">
+              <i class="bi bi-trash"></i> Excluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

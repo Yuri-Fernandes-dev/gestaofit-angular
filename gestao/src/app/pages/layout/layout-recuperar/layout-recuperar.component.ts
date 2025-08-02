@@ -10,5 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './layout-recuperar.component.css'
 })
 export class LayoutRecuperarComponent {
+onSubmit() {
+throw new Error('Method not implemented.');
+}
 
 }
