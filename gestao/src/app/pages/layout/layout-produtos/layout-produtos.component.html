@@ -1,113 +1,159 @@
 <app-barra-principal></app-barra-principal>
 
-<div class="container">
-    <div class="btns-menus">
-        <app-btn-basico [nome_btn]="'Produtos'" [rota]="'produtos'"></app-btn-basico>
-        <app-btn-basico [nome_btn]="'Novo Produto'" [rota]="'/novoproduto'"></app-btn-basico>
-
-        <app-btn-basico [nome_btn]="'Categorias'" [rota]="'categorias'"></app-btn-basico>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gerenciamento de Produtos</h2>
+        <div class="d-flex gap-2">
+            <app-btn-basico [nome_btn]="'Novo Produto'" [rota]="'/novoproduto'"></app-btn-basico>
+            <app-btn-basico [nome_btn]="'Categorias'" [rota]="'categorias'"></app-btn-basico>
+        </div>
     </div>
 
-    <div class="buscar"> 
-        <label for="">Buscar</label>
-        <input type="text" placeholder="Buscar produtos">
-        <app-btn-basico [nome_btn]="'Buscar'"></app-btn-basico>
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Buscar Produtos</label>
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Nome ou código do produto"
+                    [(ngModel)]="searchTerm"
+                    (keyup.enter)="onSearch()"
+                >
+                <button class="btn btn-outline-primary" (click)="onSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Categoria</label>
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+                <option value="">Todas as categorias</option>
+                <option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-5 d-flex align-items-end">
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary" (click)="loadProducts()">
+                    <i class="fas fa-refresh"></i> Atualizar
+                </button>
+                <button class="btn btn-outline-success" (click)="loadProducts()">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-2">Carregando produtos...</p>
     </div>
 
     <!-- Tabela de Produtos -->
-    <table class="table table-striped mt-4">
-        <thead>
-            <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Tamanho</th>
-                <th scope="col">Cor</th>
-                <th scope="col">Preço</th>
-                <th scope="col">Estoque</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>001</td>
-                <td>Suplemento A</td>
-                <td>Suplementos</td>
-                <td>500g</td>
-                <td>Azul</td>
-                <td>R$ 79,90</td>
-                <td>50</td>
-            </tr>
-            
+    <div *ngIf="!isLoading" class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Tamanho</th>
+                    <th scope="col">Cor</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Estoque</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr 
+                    *ngFor="let product of filteredProducts" 
+                    [class.table-active]="selectedProduct?.id === product.id"
+                    (click)="selectProduct(product)"
+                    style="cursor: pointer;"
+                >
+                    <td>{{ product.code }}</td>
+                    <td>
+                        <strong>{{ product.name }}</strong>
+                        <small *ngIf="product.description" class="d-block text-muted">
+                            {{ product.description }}
+                        </small>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">{{ product.category }}</span>
+                    </td>
+                    <td>{{ product.size }}</td>
+                    <td>{{ product.color }}</td>
+                    <td>
+                        <strong class="text-success">R$ {{ product.price.toFixed(2) }}</strong>
+                    </td>
+                    <td>
+                        <span [class]="getStockStatus(product.stock).class">
+                            {{ product.stock }}
+                        </span>
+                    </td>
+                    <td>
+                        <span [class]="getStockStatus(product.stock).class">
+                            {{ getStockStatus(product.stock).text }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button 
+                                class="btn btn-outline-primary" 
+                                (click)="editProduct(product); $event.stopPropagation()"
+                                title="Editar produto"
+                            >
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button 
+                                class="btn btn-outline-danger" 
+                                (click)="deleteProduct(product); $event.stopPropagation()"
+                                title="Excluir produto"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-            <tr>
-                <td>001</td>
-                <td>Suplemento A</td>
-                <td>Suplementos</td>
-                <td>500g</td>
-                <td>Azul</td>
-                <td>R$ 79,90</td>
-                <td>50</td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td>Suplemento B</td>
-                <td>Suplementos</td>
-                <td>1kg</td>
-                <td>Verde</td>
-                <td>R$ 129,90</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>Suplemento C</td>
-                <td>Suplementos</td>
-                <td>300g</td>
-                <td>Vermelho</td>
-                <td>R$ 59,90</td>
-                <td>80</td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>Suplemento C</td>
-                <td>Suplementos</td>
-                <td>300g</td>
-                <td>Vermelho</td>
-                <td>R$ 59,90</td>
-                <td>80</td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>Suplemento C</td>
-                <td>Suplementos</td>
-                <td>300g</td>
-                <td>Vermelho</td>
-                <td>R$ 59,90</td>
-                <td>80</td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>Suplemento C</td>
-                <td>Suplementos</td>
-                <td>300g</td>
-                <td>Vermelho</td>
-                <td>R$ 59,90</td>
-                <td>80</td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>Suplemento C</td>
-                <td>Suplementos</td>
-                <td>300g</td>
-                <td>Vermelho</td>
-                <td>R$ 59,90</td>
-                <td>80</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="btns-crud">
-        <app-btn-basico [nome_btn]="'Editar Produto'"></app-btn-basico>
-        <app-btn-basico [nome_btn]="'Excluir Produto'"></app-btn-basico>
-
+        <!-- Mensagem quando não há produtos -->
+        <div *ngIf="filteredProducts.length === 0 && !isLoading" class="text-center py-5">
+            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">Nenhum produto encontrado</h4>
+            <p class="text-muted">Tente ajustar os filtros ou adicionar novos produtos.</p>
+        </div>
     </div>
 
+    <!-- Paginação -->
+    <div *ngIf="filteredProducts.length > 0" class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-muted">
+            Mostrando {{ filteredProducts.length }} de {{ totalItems }} produtos
+        </div>
+        <nav aria-label="Navegação de páginas">
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" href="#" (click)="$event.preventDefault(); currentPage = currentPage - 1">
+                        Anterior
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link">{{ currentPage }}</span>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <a class="page-link" href="#" (click)="$event.preventDefault(); currentPage = currentPage + 1">
+                        Próxima
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>

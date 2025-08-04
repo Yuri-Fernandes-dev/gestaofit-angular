@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { LayoutLoginComponent } from "./pages/layout/layout-login/layout-login.component";
+import { NotificationToastComponent } from './components/notification-toast/notification-toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LayoutLoginComponent,RouterLink],
+  imports: [RouterOutlet, RouterLink, NotificationToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'gestao';
+  title = 'GestãoFit - Sistema de Gestão SaaS';
 }

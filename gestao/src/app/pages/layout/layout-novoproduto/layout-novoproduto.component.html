@@ -1,74 +1,241 @@
 <app-barra-principal />
 
-<div class="container">
-      <div class="btns-menus">
-        <app-btn-basico [nome_btn]="'Produtos'" [rota]="'/produtos'"></app-btn-basico>
-        <app-btn-basico [nome_btn]="'Novo Produto'" [rota]="'/novoproduto'"></app-btn-basico>
-        <app-btn-basico [nome_btn]="'Categorias'" [rota]="'/categorias'"></app-btn-basico>
-    </div>
-
-    <div class="titulo">
-      <h4>Cadastrar Produtos</h4> 
-
-
-    </div>
-   <form action="">
-     <div class="linha-inputs">
-      <input type="text" placeholder="Código">
-      <input type="text" placeholder="(Custo do produto)">
-      <input type="text" placeholder="Preço à vender">
-    </div>
-
-    <div class="linha-inputs">
-      
-      <input type="text" placeholder="Nome do produto" id="nome">
-    </div>
-
-    <div class="linha-inputs">
-      <input type="text" placeholder="Marca">
-      <input type="text" placeholder="Validade">
-    </div>
-
-    <div class="linha-inputs">
-      <input type="text" placeholder="Descrição do produto" id="descricao">
-      
-    </div>
-
-     <div class="linha-inputs">
-      <input type="text" placeholder="Categoria">
-      <input type="text" placeholder="Tamanho">
-    </div>
-
-     <div class="linha-inputs">
-      <input type="text" placeholder="Estoque">
-      <input type="text" placeholder="Cor">
-
-     
-      
-    </div>
- 
-    
-
-     <div class="imagem-produto">
-        <img src="https://atacadaomaromba.com/wp-content/uploads/2024/11/Copia-de-Copia-de-Copia-de-Copia-de-Copia-de-Design-sem-nome-88-copiar.webp" alt="">
-
-        <div class="btns-cadastrar">
-          <app-btn-basico [nome_btn]="'Selecionar'"></app-btn-basico>
-
-        <app-btn-basico [nome_btn]="'Cadastrar'"></app-btn-basico>
-
+<div class="page-container">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="title-section">
+          <h1><i class="fas fa-plus-circle"></i> Novo Produto</h1>
+          <p>Cadastre um novo produto no seu catálogo</p>
         </div>
-        
-
+        <div class="header-actions">
+          <button class="btn btn-outline-secondary" routerLink="/produtos">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+        </div>
       </div>
-      
+    </div>
 
-    
+    <!-- Form -->
+    <form class="product-form" (ngSubmit)="onSubmit()">
+      <div class="form-layout">
+        <!-- Coluna Esquerda -->
+        <div class="form-column">
+          <!-- Informações Básicas -->
+          <div class="form-section">
+            <h3><i class="fas fa-info-circle"></i> Informações Básicas</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="code">Código</label>
+                <input 
+                  type="text" 
+                  id="code" 
+                  name="code"
+                  [(ngModel)]="product.code"
+                  placeholder="PROD001"
+                  class="form-control"
+                >
+              </div>
+              <div class="form-group">
+                <label for="name">Nome do Produto *</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name"
+                  [(ngModel)]="product.name"
+                  placeholder="Nome do produto"
+                  class="form-control"
+                  required
+                >
+              </div>
+            </div>
 
+            <div class="form-row">
+              <div class="form-group">
+                <label for="category">Categoria *</label>
+                <select 
+                  id="category" 
+                  name="category"
+                  [(ngModel)]="product.category"
+                  class="form-control"
+                  required
+                >
+                  <option value="">Selecione</option>
+                  <option value="Suplementos">Suplementos</option>
+                  <option value="Equipamentos">Equipamentos</option>
+                  <option value="Roupas">Roupas</option>
+                  <option value="Acessórios">Acessórios</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="brand">Marca</label>
+                <input 
+                  type="text" 
+                  id="brand" 
+                  name="brand"
+                  [(ngModel)]="product.brand"
+                  placeholder="Marca"
+                  class="form-control"
+                >
+              </div>
+            </div>
 
-   </form>
+            <div class="form-group">
+              <label for="description">Descrição</label>
+              <textarea 
+                id="description" 
+                name="description"
+                [(ngModel)]="product.description"
+                placeholder="Descrição breve do produto..."
+                class="form-control"
+                rows="2"
+              ></textarea>
+            </div>
+          </div>
 
-   <span>Estimativa de Lucro: <strong> R$ 2.950,45</strong></span>
-    
+          <!-- Preços e Estoque -->
+          <div class="form-section">
+            <h3><i class="fas fa-dollar-sign"></i> Preços e Estoque</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cost">Custo R$</label>
+                <input 
+                  type="number" 
+                  id="cost" 
+                  name="cost"
+                  [(ngModel)]="product.cost"
+                  placeholder="0,00"
+                  class="form-control"
+                  step="0.01"
+                  min="0"
+                >
+              </div>
+              <div class="form-group">
+                <label for="price">Preço de Venda R$ *</label>
+                <input 
+                  type="number" 
+                  id="price" 
+                  name="price"
+                  [(ngModel)]="product.price"
+                  placeholder="0,00"
+                  class="form-control"
+                  step="0.01"
+                  min="0"
+                  required
+                >
+              </div>
+            </div>
 
+            <div class="form-row">
+              <div class="form-group">
+                <label for="stock">Estoque *</label>
+                <input 
+                  type="number" 
+                  id="stock" 
+                  name="stock"
+                  [(ngModel)]="product.stock"
+                  placeholder="0"
+                  class="form-control"
+                  min="0"
+                  required
+                >
+              </div>
+              <div class="form-group">
+                <label for="size">Tamanho</label>
+                <input 
+                  type="text" 
+                  id="size" 
+                  name="size"
+                  [(ngModel)]="product.size"
+                  placeholder="900g, M, 30cm"
+                  class="form-control"
+                >
+              </div>
+            </div>
+
+            <!-- Estimativa de Lucro Compacta -->
+            <div class="profit-estimate" *ngIf="product.cost && product.price">
+              <div class="profit-card-compact">
+                <div class="profit-item">
+                  <span class="profit-label">Lucro:</span>
+                  <span class="profit-value positive">
+                    R$ {{ getProfitPerUnit() | number:'1.2-2' }} ({{ getProfitMargin() | number:'1.1-1' }}%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Direita -->
+        <div class="form-column">
+          <!-- Detalhes Adicionais -->
+          <div class="form-section">
+            <h3><i class="fas fa-tags"></i> Detalhes</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="color">Cor</label>
+                <input 
+                  type="text" 
+                  id="color" 
+                  name="color"
+                  [(ngModel)]="product.color"
+                  placeholder="Cor"
+                  class="form-control"
+                >
+              </div>
+              <div class="form-group">
+                <label for="expiry">Validade</label>
+                <input 
+                  type="date" 
+                  id="expiry" 
+                  name="expiry"
+                  [(ngModel)]="product.expiryDate"
+                  class="form-control"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Imagem do Produto -->
+          <div class="form-section">
+            <h3><i class="fas fa-image"></i> Imagem</h3>
+            <div class="image-upload-compact">
+              <div class="image-preview-compact" [class.has-image]="product.imageUrl" (click)="selectImage()">
+                <img 
+                  [src]="product.imageUrl || 'https://via.placeholder.com/120x120/667eea/ffffff?text=+'"
+                  alt="Preview"
+                  class="product-image-compact"
+                >
+                <div class="image-overlay-compact" *ngIf="!product.imageUrl">
+                  <i class="fas fa-plus"></i>
+                </div>
+              </div>
+              <div class="image-actions-compact">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="selectImage()">
+                  <i class="fas fa-upload"></i> Selecionar
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeImage()" *ngIf="product.imageUrl">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline-secondary" routerLink="/produtos">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <i class="fas fa-save"></i> 
+          <span *ngIf="!isLoading">Cadastrar Produto</span>
+          <span *ngIf="isLoading">Cadastrando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

@@ -1,27 +1,129 @@
-# Gestao
+# GestãoFit - Sistema de Gestão SaaS
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Sistema completo de gestão para academias e lojas de suplementos, desenvolvido em Angular 17 com arquitetura SaaS.
 
-## Development server
+## 🚀 Funcionalidades Implementadas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### ✅ **Fundação Técnica**
+- **Services Layer**: AuthService, ApiService, ProductService, NotificationService
+- **Guards**: AuthGuard, SubscriptionGuard para proteção de rotas
+- **Interceptors**: AuthInterceptor, ErrorInterceptor para tratamento de HTTP
+- **Sistema de Notificações**: Toast notifications com diferentes tipos
+- **Arquitetura Modular**: Standalone components com injeção de dependência
 
-## Code scaffolding
+### ✅ **Funcionalidades SaaS**
+- **Autenticação**: Login/Logout com JWT tokens
+- **Multi-tenancy**: Preparado para múltiplos clientes
+- **Sistema de Planos**: Free, Pro, Enterprise com limitações
+- **Proteção de Rotas**: Baseada em autenticação e assinatura
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### ✅ **Módulos de Negócio**
+- **Dashboard**: Gráficos e métricas com filtros de data
+- **Produtos**: CRUD completo com filtros e paginação
+- **Vendas**: Estrutura preparada para implementação
+- **Despesas**: Gestão de custos com categorização
+- **Categorias**: Organização de produtos
 
-## Build
+## 🛠️ Tecnologias Utilizadas
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Angular 17** - Framework principal
+- **Bootstrap 5** - UI Framework
+- **Angular Material** - Componentes avançados
+- **Chart.js** - Gráficos e visualizações
+- **Font Awesome** - Ícones
+- **RxJS** - Programação reativa
 
-## Running unit tests
+## 📦 Instalação e Execução
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
 
-## Running end-to-end tests
+### Instalação
+```bash
+# Instalar dependências
+npm install
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Executar em modo desenvolvimento
+npm start
 
-## Further help
+# Build para produção
+npm run build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Acesso
+- **URL**: http://localhost:4200
+- **Demo Login**: admin@gestaofit.com / 123456
+
+## 🏗️ Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── components/          # Componentes reutilizáveis
+│   ├── pages/              # Páginas da aplicação
+│   ├── services/           # Serviços e lógica de negócio
+│   ├── guards/             # Guards de autenticação
+│   ├── interceptors/       # Interceptors HTTP
+│   └── app.routes.ts       # Configuração de rotas
+```
+
+## 🔧 Configuração para Backend
+
+### Variáveis de Ambiente
+Crie um arquivo `environment.ts`:
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080/api'
+};
+```
+
+### Endpoints Esperados
+- `POST /api/auth/login` - Autenticação
+- `POST /api/auth/register` - Registro
+- `GET /api/products` - Listar produtos
+- `POST /api/products` - Criar produto
+- `PUT /api/products/:id` - Atualizar produto
+- `DELETE /api/products/:id` - Excluir produto
+
+## 💰 Modelo de Negócio SaaS
+
+### Planos Disponíveis
+1. **Free**: R$ 0/mês
+   - 1 usuário, 100 produtos, relatórios básicos
+
+2. **Pro**: R$ 97/mês
+   - 5 usuários, produtos ilimitados, relatórios avançados
+
+3. **Enterprise**: R$ 297/mês
+   - Usuários ilimitados, white-label, suporte 24/7
+
+## 🚀 Próximos Passos
+
+### Fase 2: Integração Backend
+- [ ] Conectar com Spring Boot
+- [ ] Implementar autenticação real
+- [ ] Migrar dados mockados para API
+
+### Fase 3: Funcionalidades Avançadas
+- [ ] Sistema de vendas completo
+- [ ] Relatórios avançados
+- [ ] Integração com gateways de pagamento
+- [ ] PWA e mobile app
+
+### Fase 4: Escalabilidade
+- [ ] Multi-tenancy completo
+- [ ] Analytics e métricas
+- [ ] White-label
+- [ ] API pública
+
+## 📞 Suporte
+
+Para dúvidas ou suporte técnico:
+- Email: suporte@gestaofit.com
+- Documentação: [docs.gestaofit.com](https://docs.gestaofit.com)
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

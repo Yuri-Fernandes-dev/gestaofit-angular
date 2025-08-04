@@ -1,118 +1,166 @@
 .container {
-  max-width: 400px;
-  width: 100%;
-  margin: 5% auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
 }
 
 .container-login {
-  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .titulo h1 {
-  margin: 0 0 8px 0;
-  color: #1976D2;
-  font-size: 24px;
-  font-weight: 600;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .titulo p {
-  margin: 0 0 16px 0;
   color: #666;
-  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .titulo a {
-  color: #1976D2;
+  color: #007bff;
   text-decoration: none;
-  font-size: 13px;
-  transition: color 0.2s;
+  font-size: 0.9rem;
 }
 
 .titulo a:hover {
-  color: #0d47a1;
   text-decoration: underline;
 }
 
 .input-dados {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 10px;
+  gap: 20px;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
-label {
-  font-size: 14px;
+.input-group label {
+  font-weight: 600;
   color: #333;
-  margin-bottom: 6px;
-  font-weight: 500;
+  font-size: 0.9rem;
 }
 
-input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
+.input-group input {
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
   border-radius: 8px;
-  font-size: 15px;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
   outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
-input:focus {
-  border-color: #1976D2;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+.password-input {
+  position: relative;
 }
 
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  width: 100%;
-  max-width: 150px;
-  align-self: center;
-  background-color: #1976D2;
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
+.input-dados button[type="submit"] {
+  background: linear-gradient(90deg, #007bff, #00d4ff);
   color: white;
   border: none;
+  padding: 14px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
 }
 
-button:hover {
-  background-color: #1565C0;
+.input-dados button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+}
+
+.input-dados button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.demo-section {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.demo-section p {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.btn-demo {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-demo:hover:not(:disabled) {
+  background: #218838;
   transform: translateY(-1px);
 }
 
-button:active {
-  transform: translateY(0);
+.btn-demo:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-/* Responsividade */
 @media (max-width: 480px) {
-  .container {
-    margin: 10% 5% 0;
-    width: auto;
-  }
-
   .container-login {
-    padding: 20px;
+    padding: 30px 20px;
+  }
+  
+  .titulo h1 {
+    font-size: 1.5rem;
   }
 }
 

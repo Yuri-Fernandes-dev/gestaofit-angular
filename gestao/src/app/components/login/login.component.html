@@ -1,23 +1,59 @@
 <div class="container">
   <div class="container-login">
     <div class="titulo">
-      <h1>Bem-vindo</h1>
-      <p>Entre com suas credenciais</p>
+      <h1>Bem-vindo ao GestãoFit</h1>
+      <p>Sistema de Gestão SaaS para Academias</p>
       <a [routerLink]="'/cadastro'">Cadastrar-se / Esqueceu a senha?</a>
     </div>
 
     <form class="input-dados" (ngSubmit)="onSubmit()">
       <div class="input-group">
-        <label for="usuario">E-mail ou Nome de usuário</label>
-        <input id="usuario" type="text" placeholder="ex: lojista@email.com" required>
+        <label for="email">E-mail</label>
+        <input 
+          id="email" 
+          type="email" 
+          placeholder="ex: admin@gestaofit.com" 
+          [(ngModel)]="loginData.email"
+          name="email"
+          required
+        >
       </div>
 
       <div class="input-group">
-        <label for="senha">Senha</label>
-        <input id="senha" type="password" placeholder="••••••••" required>
+        <label for="password">Senha</label>
+        <div class="password-input">
+          <input 
+            id="password" 
+            [type]="showPassword ? 'text' : 'password'" 
+            placeholder="••••••••" 
+            [(ngModel)]="loginData.password"
+            name="password"
+            required
+          >
+          <button 
+            type="button" 
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
       </div>
 
-      <button type="submit">Entrar</button>
+      <button type="submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Entrar</span>
+        <span *ngIf="isLoading">
+          <i class="fas fa-spinner fa-spin"></i> Entrando...
+        </span>
+      </button>
+
+      <!-- Botão Demo -->
+      <div class="demo-section">
+        <p class="text-muted">Ou teste com dados de demonstração:</p>
+        <button type="button" class="btn-demo" (click)="demoLogin()" [disabled]="isLoading">
+          <i class="fas fa-play"></i> Login Demo
+        </button>
+      </div>
     </form>
   </div>
 </div>
