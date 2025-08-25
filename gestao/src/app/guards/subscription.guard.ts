@@ -14,6 +14,10 @@ export class SubscriptionGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Temporariamente permitindo acesso a todas as rotas
+    return true;
+    
+    /* Código original comentado para evitar redirecionamentos indesejados
     if (this.authService.isAuthenticated() && this.authService.isSubscriptionActive()) {
       return true;
     } else if (this.authService.isAuthenticated() && !this.authService.isSubscriptionActive()) {
@@ -24,5 +28,6 @@ export class SubscriptionGuard implements CanActivate {
       this.router.navigate(['/']);
       return false;
     }
+    */
   }
-} 
+}

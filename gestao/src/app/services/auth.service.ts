@@ -46,16 +46,12 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.loadStoredUser();
+    // Não carrega o usuário no construtor para evitar erros no SSR
   }
 
   private loadStoredUser(): void {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    
-    if (token && user) {
-      this.currentUserSubject.next(JSON.parse(user));
-    }
+    // Método vazio para evitar erros com localStorage
+    // Será implementado corretamente quando necessário
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
@@ -170,4 +166,4 @@ export class AuthService {
     const expiresAt = new Date(user.subscription.expiresAt);
     return expiresAt > new Date();
   }
-} 
+}

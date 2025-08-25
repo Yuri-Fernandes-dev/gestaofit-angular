@@ -5,7 +5,6 @@
         <h2>Gerenciamento de Produtos</h2>
         <div class="d-flex gap-2">
             <app-btn-basico [nome_btn]="'Novo Produto'" [rota]="'/novoproduto'"></app-btn-basico>
-            <app-btn-basico [nome_btn]="'Categorias'" [rota]="'categorias'"></app-btn-basico>
         </div>
     </div>
 
@@ -65,7 +64,9 @@
                     <th scope="col">Categoria</th>
                     <th scope="col">Tamanho</th>
                     <th scope="col">Cor</th>
+                    <th scope="col">Custo</th>
                     <th scope="col">Preço</th>
+                    <th scope="col">Lucro</th>
                     <th scope="col">Estoque</th>
                     <th scope="col">Status</th>
                     <th scope="col">Ações</th>
@@ -91,7 +92,16 @@
                     <td>{{ product.size }}</td>
                     <td>{{ product.color }}</td>
                     <td>
+                        <strong class="text-primary">R$ {{ product.cost ? product.cost.toFixed(2) : '0.00' }}</strong>
+                    </td>
+                    <td>
                         <strong class="text-success">R$ {{ product.price.toFixed(2) }}</strong>
+                    </td>
+                    <td>
+                        <strong class="text-info">R$ {{ calculateProfit(product).toFixed(2) }}</strong>
+                        <small class="d-block text-muted">
+                            {{ calculateProfitPercentage(product) }}%
+                        </small>
                     </td>
                     <td>
                         <span [class]="getStockStatus(product.stock).class">

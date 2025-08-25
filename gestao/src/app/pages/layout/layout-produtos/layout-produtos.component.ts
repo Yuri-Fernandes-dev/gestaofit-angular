@@ -116,4 +116,18 @@ export class LayoutProdutosComponent implements OnInit {
       return { text: 'Em estoque', class: 'text-success' };
     }
   }
+
+  calculateProfit(product: Product): number {
+    const cost = product.cost || 0;
+    return product.price - cost;
+  }
+
+  calculateProfitPercentage(product: Product): number {
+    const cost = product.cost || 0;
+    if (cost === 0) return 0;
+    
+    const profit = this.calculateProfit(product);
+    const percentage = (profit / cost) * 100;
+    return Math.round(percentage);
+  }
 }

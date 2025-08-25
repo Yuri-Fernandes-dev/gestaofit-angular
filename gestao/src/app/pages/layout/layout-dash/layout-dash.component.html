@@ -1,67 +1,129 @@
 <app-barra-principal></app-barra-principal>
 
-<div class="container">
-  <div class="container-cards">
-    <app-card-dash
-      [titulo_card]="'Total de vendas'"
-      [valor_card]="'1.240,00'"
-      [bg_card]="'#00BF63'">
-    </app-card-dash>
-
-    <app-card-dash
-      [titulo_card]="'Despesas'"
-      [valor_card]="'3.500,46'"
-      [bg_card]="'#FFBD59'">
-    </app-card-dash>
-
-    <app-card-dash
-      [titulo_card]="'Custo Unitários'"
-      [valor_card]="'1.240,00'"
-      [bg_card]="'#FF3131'">
-    </app-card-dash>
-
-    <app-card-dash
-      [titulo_card]="'Lucro'"
-      [valor_card]="'3.500,46'"
-      [bg_card]="'#38B6FF'">
-    </app-card-dash>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+    <div class="period-selector">
+      <div class="d-flex align-items-center">
+        <select class="form-select me-2" [(ngModel)]="selectedPeriod" (change)="applyPeriodFilter()">
+          <option value="today">Hoje</option>
+          <option value="week">Esta Semana</option>
+          <option value="month">Este Mês</option>
+          <option value="quarter">Este Trimestre</option>
+          <option value="year">Este Ano</option>
+        </select>
+        <button class="btn btn-primary btn-sm" (click)="filterData()">
+          <i class="bi bi-filter me-1"></i> Filtrar
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div class="filter-container">
-    <h3>Filtro de Período</h3>
-    <mat-form-field appearance="fill">
-      <mat-label>Data Início</mat-label>
-      <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="filterData()" placeholder="Escolha a data inicial">
-      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Data Fim</mat-label>
-      <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="filterData()" placeholder="Escolha a data final">
-      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-      <mat-datepicker #endPicker></mat-datepicker>
-    </mat-form-field>
-  </div>
-
-  <div class="container-charts" *ngIf="isBrowser">
-    <div class="chart-card">
-      <h3>Distribuição de Vendas por Categoria</h3>
-      <canvas baseChart
-              [data]="pieChartData"
-              [type]="'pie'"
-              [options]="pieChartOptions"
-              height="300">
-      </canvas>
+  <!-- Cards KPI -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="dashboard-card card-success">
+        <div class="card-icon">
+          <i class="bi bi-cart-check"></i>
+        </div>
+        <div class="card-content">
+          <h5 class="card-title">Total de Vendas</h5>
+          <p class="card-value">R$ 1.240,00</p>
+          <div class="card-trend positive">
+            <i class="bi bi-graph-up-arrow"></i> 12% vs mês anterior
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="chart-card">
-      <h3>Vendas Mensais</h3>
-      <canvas baseChart
-              [data]="barChartData"
-              [type]="'bar'"
-              [options]="barChartOptions"
-              height="300">
-      </canvas>
+    <div class="col-md-3">
+      <div class="dashboard-card card-warning">
+        <div class="card-icon">
+          <i class="bi bi-cash-coin"></i>
+        </div>
+        <div class="card-content">
+          <h5 class="card-title">Despesas</h5>
+          <p class="card-value">R$ 3.500,46</p>
+          <div class="card-trend negative">
+            <i class="bi bi-graph-down-arrow"></i> 5% vs mês anterior
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="dashboard-card card-danger">
+        <div class="card-icon">
+          <i class="bi bi-tags"></i>
+        </div>
+        <div class="card-content">
+          <h5 class="card-title">Custo Unitário</h5>
+          <p class="card-value">R$ 1.240,00</p>
+          <div class="card-trend neutral">
+            <i class="bi bi-dash"></i> Sem alteração
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="dashboard-card card-primary">
+        <div class="card-icon">
+          <i class="bi bi-piggy-bank"></i>
+        </div>
+        <div class="card-content">
+          <h5 class="card-title">Lucro</h5>
+          <p class="card-value">R$ 3.500,46</p>
+          <div class="card-trend positive">
+            <i class="bi bi-graph-up-arrow"></i> 8% vs mês anterior
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="row" *ngIf="isBrowser">
+    <div class="col-md-6 mb-4">
+      <div class="chart-container">
+        <div class="chart-header">
+          <h3><i class="bi bi-pie-chart me-2"></i>Distribuição de Vendas por Categoria</h3>
+          <div class="chart-actions">
+            <button class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-download"></i>
+            </button>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [type]="'pie'"
+                  [options]="pieChartOptions"
+                  height="300">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="chart-container">
+        <div class="chart-header">
+          <h3><i class="bi bi-bar-chart me-2"></i>Vendas Mensais</h3>
+          <div class="chart-actions">
+            <button class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-download"></i>
+            </button>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas baseChart
+                  [data]="barChartData"
+                  [type]="'bar'"
+                  [options]="barChartOptions"
+                  height="300">
+          </canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>

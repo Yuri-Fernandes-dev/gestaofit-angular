@@ -1,91 +1,181 @@
 <app-barra-principal></app-barra-principal>
 <div class="container mt-4">
-  <h2 class="mb-3">Despesas da Loja</h2>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title"><i class="bi bi-cash-coin me-2"></i>Gestão de Despesas</h2>
+    <button class="btn btn-primary add-button" (click)="abrirModal()">
+      <i class="bi bi-plus-lg me-2"></i> Nova Despesa
+    </button>
+  </div>
+
+<!-- Modal de Nova Despesa -->
+<div class="modal-overlay" *ngIf="showModal" (click)="fecharModal($event)">
+  <div class="modal-custom">
+    <div class="modal-header">
+      <h5 class="modal-title">{{modoEdicao ? 'Editar' : 'Nova'}} Despesa</h5>
+      <button type="button" class="btn-close" (click)="fecharModal($event)"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="data" class="form-label">Data</label>
+          <input type="date" class="form-control" id="data" [(ngModel)]="novaDespesa.data" name="data">
+        </div>
+        <div class="mb-3">
+          <label for="categoria" class="form-label">Categoria</label>
+          <div class="input-group">
+            <select class="form-select" id="categoria" [(ngModel)]="novaDespesa.categoria" name="categoria">
+              <option value="">Selecione uma categoria</option>
+              <option *ngFor="let cat of categorias" [value]="cat">{{cat}}</option>
+            </select>
+            <button class="btn btn-primary" type="button" (click)="adicionarCategoria()">
+              <i class="bi bi-plus-lg"></i> Nova
+            </button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="descricao" class="form-label">Descrição</label>
+          <input type="text" class="form-control" id="descricao" [(ngModel)]="novaDespesa.descricao" name="descricao">
+        </div>
+        <div class="mb-3">
+          <label for="valor" class="form-label">Valor (R$)</label>
+          <input type="number" class="form-control" id="valor" [(ngModel)]="novaDespesa.valor" name="valor" step="0.01">
+        </div>
+        <div class="mb-3">
+          <label for="fornecedor" class="form-label">Fornecedor</label>
+          <input type="text" class="form-control" id="fornecedor" [(ngModel)]="novaDespesa.fornecedor" name="fornecedor">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="fecharModal($event)">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="salvarDespesa()">Salvar</button>
+    </div>
+  </div>
+</div>
 
   <!-- Cards com KPIs -->
   <div class="row mb-4">
     <div class="col-md-4">
-      <div class="card text-white bg-primary mb-3">
-        <div class="card-body">
+      <div class="dashboard-card card-primary">
+        <div class="card-icon">
+          <i class="bi bi-calendar-month"></i>
+        </div>
+        <div class="card-content">
           <h5 class="card-title">Total do Mês</h5>
-          <p class="card-text">R$ {{ totalMesAtual.toFixed(2) }}</p>
+          <p class="card-value">R$ {{ totalMesAtual.toFixed(2) }}</p>
         </div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card text-white bg-info mb-3">
-        <div class="card-body" id="caard">
+      <div class="dashboard-card card-info">
+        <div class="card-icon">
+          <i class="bi bi-piggy-bank"></i>
+        </div>
+        <div class="card-content">
           <h5 class="card-title">Economia do Mês</h5>
-          <p class="card-text">
-            R$ {{ economiaMes.valor.toFixed(2) }} ({{ economiaMes.percentual }}%)
+          <p class="card-value">
+            R$ {{ economiaMes.valor.toFixed(2) }}
+            <span class="percentage-badge" [class.positive]="economiaMes.percentual >= 0" [class.negative]="economiaMes.percentual < 0">
+              {{ economiaMes.percentual >= 0 ? '+' : '' }}{{ economiaMes.percentual.toFixed(1) }}%
+            </span>
           </p>
-          
         </div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card text-white bg-success mb-3">
-        <div class="card-body">
+      <div class="dashboard-card card-success">
+        <div class="card-icon">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <div class="card-content">
           <h5 class="card-title">Média por Dia</h5>
-          <p class="card-text">R$ {{ mediaPorDia.toFixed(2) }}</p>
+          <p class="card-value">R$ {{ mediaPorDia.toFixed(2) }}</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Filtros -->
-  <div class="row mb-3">
-    <div class="col-md-3">
-      <input type="month" class="form-control" [(ngModel)]="mesSelecionado">
-    </div>
-    <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="categoriaSelecionada">
-        <option value="">Todas Categorias</option>
-        <option *ngFor="let cat of categorias">{{cat}}</option>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Buscar por descrição..." [(ngModel)]="filtroDescricao">
-    </div>
-    <div class="col-md-3 text-end">
-      <button class="btn btn-outline-success" (click)="abrirModal()">
-        <i class="bi bi-plus-circle"></i> Nova Despesa
-      </button>
+  <div class="filter-container mb-4">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+          <input type="month" class="form-control" [(ngModel)]="mesSelecionado" placeholder="Selecione o mês">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tag"></i></span>
+          <select class="form-select" [(ngModel)]="categoriaSelecionada">
+            <option value="">Todas Categorias</option>
+            <option *ngFor="let cat of categorias">{{cat}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control" placeholder="Buscar por descrição..." [(ngModel)]="filtroDescricao">
+          <button class="btn btn-outline-secondary" type="button" *ngIf="filtroDescricao" (click)="filtroDescricao=''">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Tabela -->
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead class="table-light">
-        <tr>
-          <th>Data</th>
-          <th>Categoria</th>
-          <th>Descrição</th>
-          <th>Valor</th>
-          <th>Fornecedor</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let despesa of despesasFiltradas()">
-          <td>{{despesa.data}}</td>
-          <td>{{despesa.categoria}}</td>
-          <td>{{despesa.descricao}}</td>
-          <td>R$ {{despesa.valor.toFixed(2)}}</td>
-          <td>{{despesa.fornecedor}}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary me-1" (click)="editarDespesa(despesa)">
-              <i class="bi bi-pencil"></i> Editar
-            </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="excluirDespesa(despesa.id)">
-              <i class="bi bi-trash"></i> Excluir
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="table-container">
+    <div class="table-responsive">
+      <table class="table table-hover custom-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-calendar-date me-2"></i>Data</th>
+            <th><i class="bi bi-tag me-2"></i>Categoria</th>
+            <th><i class="bi bi-card-text me-2"></i>Descrição</th>
+            <th><i class="bi bi-currency-dollar me-2"></i>Valor</th>
+            <th><i class="bi bi-shop me-2"></i>Fornecedor</th>
+            <th class="text-center"><i class="bi bi-gear me-2"></i>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let despesa of despesasFiltradas()">
+            <td>{{despesa.data | date: 'dd/MM/yyyy'}}</td>
+            <td>
+              <span class="category-badge" [ngClass]="'category-' + despesa.categoria.toLowerCase().replace(' ', '-')">
+                {{despesa.categoria}}
+              </span>
+            </td>
+            <td>{{despesa.descricao}}</td>
+            <td class="fw-bold">R$ {{despesa.valor.toFixed(2)}}</td>
+            <td>{{despesa.fornecedor}}</td>
+            <td class="text-center">
+               <div class="action-buttons">
+                 <button class="btn btn-sm btn-primary me-1" title="Editar" (click)="editarDespesa(despesa)">
+                   <i class="bi bi-pencil-square"></i> Editar
+                 </button>
+                 <button class="btn btn-sm btn-danger" title="Excluir" (click)="excluirDespesa(despesa.id)">
+                   <i class="bi bi-trash"></i> Excluir
+                 </button>
+               </div>
+             </td>
+          </tr>
+          <tr *ngIf="despesasFiltradas().length === 0">
+            <td colspan="6" class="text-center py-4">
+              <div class="empty-state">
+                <i class="bi bi-inbox-fill empty-icon"></i>
+                <p>Nenhuma despesa encontrada</p>
+                <button class="btn btn-sm btn-primary" (click)="abrirModal()">
+                  <i class="bi bi-plus-lg me-1"></i> Adicionar Despesa
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -472,6 +472,71 @@ textarea.form-control {
   }
 }
 
+.categoria-group .input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-add-categoria {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  margin-left: 4px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal de categoria */
+.modal-categoria {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-categoria-backdrop {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+}
+.modal-categoria-content {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 24px 20px 24px;
+  min-width: 320px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: stretch;
+}
+.modal-categoria-content h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+}
+.modal-categoria-content input.form-control {
+  margin-bottom: 10px;
+}
+.modal-categoria-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+@media (max-width: 480px) {
+  .modal-categoria-content {
+    min-width: 90vw;
+    padding: 18px 8px 12px 8px;
+  }
+}
+
 
 
 

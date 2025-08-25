@@ -48,6 +48,11 @@ export class LayoutNovoprodutoComponent {
 
   isLoading = false;
 
+  // Categorias dinâmicas
+  categories: string[] = ['Suplementos', 'Equipamentos', 'Roupas', 'Acessórios'];
+  showCategoryModal = false;
+  novaCategoria = '';
+
   constructor(
     private productService: ProductService,
     private notificationService: NotificationService,
@@ -78,20 +83,6 @@ export class LayoutNovoprodutoComponent {
       this.router.navigate(['/produtos']);
       this.isLoading = false;
     }, 1500);
-
-    // Quando conectar com backend, usar:
-    // this.productService.createProduct(productData).subscribe({
-    //   next: (response) => {
-    //     this.notificationService.showSuccess('Produto cadastrado com sucesso!');
-    //     this.router.navigate(['/produtos']);
-    //   },
-    //   error: (error) => {
-    //     this.notificationService.showError(error.message || 'Erro ao cadastrar produto');
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;
-    //   }
-    // });
   }
 
   getProfitMargin(): number {
@@ -105,14 +96,37 @@ export class LayoutNovoprodutoComponent {
   }
 
   selectImage(): void {
-    // Implementar seleção de imagem
     this.notificationService.showInfo('Funcionalidade de upload de imagem será implementada');
-    
-    // Para demo, usar uma imagem placeholder
     this.product.imageUrl = 'https://via.placeholder.com/300x300/667eea/ffffff?text=Produto';
   }
 
   removeImage(): void {
     this.product.imageUrl = '';
+  }
+
+  // Modal de categoria
+  openCategoryModal(): void {
+    this.novaCategoria = '';
+    this.showCategoryModal = true;
+  }
+
+  closeCategoryModal(): void {
+    this.showCategoryModal = false;
+  }
+
+  addCategoria(): void {
+    const nome = this.novaCategoria.trim();
+    if (!nome) {
+      this.notificationService.showError('Digite o nome da categoria');
+      return;
+    }
+    if (this.categories.includes(nome)) {
+      this.notificationService.showWarning('Categoria já existe');
+      return;
+    }
+    this.categories.push(nome);
+    this.product.category = nome;
+    this.showCategoryModal = false;
+    this.notificationService.showSuccess('Categoria adicionada!');
   }
 }

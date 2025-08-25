@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BarraPrincipalComponent } from '../../../components/barra-principal/barra-principal.component';
-import { NgStyle, NgIf } from '@angular/common';
+import { NgStyle, NgIf, NgClass } from '@angular/common';
 import { CardDashComponent } from '../../../components/card-dash/card-dash.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     BarraPrincipalComponent,
     NgStyle,
     NgIf,
+    NgClass,
     CardDashComponent,
     NgChartsModule,
     FormsModule,
@@ -38,7 +39,9 @@ export class LayoutDashComponent implements OnInit {
     labels: ['Eletrônicos', 'Roupas', 'Alimentos', 'Outros'],
     datasets: [{
       data: [300, 500, 200, 240],
-      backgroundColor: ['#00BF63', '#FFBD59', '#FF3131', '#38B6FF']
+      backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#3b82f6'],
+      borderColor: 'white',
+      borderWidth: 2
     }]
   };
 
@@ -46,7 +49,9 @@ export class LayoutDashComponent implements OnInit {
     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
     datasets: [{
       data: [200, 300, 400, 350, 500, 450],
-      backgroundColor: '#38B6FF',
+      backgroundColor: '#3b82f6',
+      borderRadius: 6,
+      maxBarThickness: 40,
       label: 'Vendas (R$)'
     }]
   };
@@ -57,36 +62,91 @@ export class LayoutDashComponent implements OnInit {
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          font: {
+            family: 'Roboto',
+            size: 12
+          },
+          padding: 20
+        }
       },
       tooltip: {
-        enabled: true
+        enabled: true,
+        backgroundColor: 'rgba(30, 41, 59, 0.8)',
+        titleFont: {
+          size: 14,
+          weight: 'bold'
+        },
+        bodyFont: {
+          size: 13
+        },
+        padding: 12,
+        cornerRadius: 6
       }
     }
   };
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        },
+        ticks: {
+          font: {
+            family: 'Roboto'
+          }
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            family: 'Roboto'
+          }
+        }
       }
     },
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          font: {
+            family: 'Roboto',
+            size: 12
+          },
+          padding: 20
+        }
       },
       tooltip: {
-        enabled: true
+        enabled: true,
+        backgroundColor: 'rgba(30, 41, 59, 0.8)',
+        titleFont: {
+          size: 14,
+          weight: 'bold'
+        },
+        bodyFont: {
+          size: 13
+        },
+        padding: 12,
+        cornerRadius: 6
       }
     }
   };
 
-  // Propriedades para o filtro de data
-  public startDate: Date | null = new Date(new Date().getFullYear(), new Date().getMonth(), 1); // Início do mês
-  public endDate: Date | null = new Date(); // Hoje
+  // Propriedades para o filtro de período
+  public selectedPeriod: string = 'month'; // Padrão: Este Mês
+  public startDate: Date | null = null; 
+  public endDate: Date | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -96,6 +156,41 @@ export class LayoutDashComponent implements OnInit {
     if (this.isBrowser) {
       this.filterData(); // Aplica o filtro inicial apenas no browser
     }
+  }
+
+  applyPeriodFilter(): void {
+    const today = new Date();
+    
+    switch(this.selectedPeriod) {
+      case 'today':
+        this.startDate = today;
+        this.endDate = today;
+        break;
+      case 'week':
+        const firstDayOfWeek = new Date(today);
+        firstDayOfWeek.setDate(today.getDate() - today.getDay());
+        this.startDate = firstDayOfWeek;
+        this.endDate = today;
+        break;
+      case 'month':
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        this.startDate = firstDayOfMonth;
+        this.endDate = today;
+        break;
+      case 'quarter':
+        const quarter = Math.floor(today.getMonth() / 3);
+        const firstDayOfQuarter = new Date(today.getFullYear(), quarter * 3, 1);
+        this.startDate = firstDayOfQuarter;
+        this.endDate = today;
+        break;
+      case 'year':
+        const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+        this.startDate = firstDayOfYear;
+        this.endDate = today;
+        break;
+    }
+    
+    this.filterData();
   }
 
   filterData(): void {

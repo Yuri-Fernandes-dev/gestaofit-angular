@@ -10,6 +10,7 @@ export interface Product {
   category: string;
   size: string;
   color: string;
+  cost?: number;
   price: number;
   stock: number;
   description?: string;
@@ -98,6 +99,7 @@ export class ProductService {
         category: 'Suplementos',
         size: '900g',
         color: 'Baunilha',
+        cost: 45.50,
         price: 89.90,
         stock: 50,
         description: 'Whey protein de alta qualidade',
@@ -111,6 +113,7 @@ export class ProductService {
         category: 'Suplementos',
         size: '300g',
         color: 'Branco',
+        cost: 22.50,
         price: 45.90,
         stock: 30,
         description: 'Creatina pura para ganho de força',
@@ -124,6 +127,7 @@ export class ProductService {
         category: 'Suplementos',
         size: '500g',
         color: 'Limão',
+        cost: 32.80,
         price: 65.90,
         stock: 25,
         description: 'BCAA para recuperação muscular',
@@ -132,4 +136,4 @@ export class ProductService {
       }
     ];
   }
-} 
+}

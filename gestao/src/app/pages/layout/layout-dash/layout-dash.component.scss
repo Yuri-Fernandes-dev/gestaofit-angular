@@ -1,0 +1,151 @@
+// Estilos para o Dashboard
+.page-title {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+// Cards KPI com cores mais profissionais
+.dashboard-card {
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  border-left: 5px solid;
+  display: flex;
+  align-items: center;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+  }
+  
+  .card-content {
+    flex: 1;
+  }
+  
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+  }
+  
+  .card-trend {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    
+    i {
+      margin-right: 0.25rem;
+    }
+    
+    &.positive {
+      color: #10b981;
+    }
+    
+    &.negative {
+      color: #ef4444;
+    }
+    
+    &.neutral {
+      color: #6c757d;
+    }
+  }
+}
+
+// Cores específicas para cada card
+.card-success {
+  border-left-color: #10b981;
+  
+  .card-icon {
+    background-color: #10b981;
+  }
+}
+
+.card-warning {
+  border-left-color: #f59e0b;
+  
+  .card-icon {
+    background-color: #f59e0b;
+  }
+}
+
+.card-danger {
+  border-left-color: #ef4444;
+  
+  .card-icon {
+    background-color: #ef4444;
+  }
+}
+
+.card-primary {
+  border-left-color: #3b82f6;
+  
+  .card-icon {
+    background-color: #3b82f6;
+  }
+}
+
+// Estilos para os gráficos
+.chart-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0;
+    }
+  }
+}
+
+// Estilos para o seletor de período
+.period-selector {
+  .input-group {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    
+    .input-group-text {
+      background-color: white;
+      border-color: #e2e8f0;
+      color: #64748b;
+    }
+  }
+  
+  .date-field {
+    width: 150px;
+  }
+}

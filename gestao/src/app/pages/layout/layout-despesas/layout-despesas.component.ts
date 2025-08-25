@@ -1,23 +1,72 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgClass, DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BarraPrincipalComponent } from "../../../components/barra-principal/barra-principal.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-layout-despesas',
   standalone: true,
+  imports: [CommonModule, FormsModule, BarraPrincipalComponent, RouterModule, NgClass, DatePipe],
   templateUrl: './layout-despesas.component.html',
-  styleUrls: ['./layout-despesas.component.css'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    BarraPrincipalComponent
-  ]
+  styleUrl: './layout-despesas.component.scss',
+  styles: [`
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+    .modal-custom {
+      background-color: white;
+      border-radius: 5px;
+      width: 500px;
+      max-width: 90%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .modal-body {
+      padding: 1rem;
+    }
+    .modal-footer {
+      padding: 1rem;
+      border-top: 1px solid #dee2e6;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+  `]
 })
-export class LayoutDespesasComponent {
+export class LayoutDespesasComponent implements OnInit {
   mesSelecionado: string = '2025-08';  // exemplo com mês selecionado já definido
   categoriaSelecionada: string = '';
   filtroDescricao: string = '';
+  
+  // Modal
+  showModal: boolean = false;
+  modoEdicao: boolean = false;
+  
+  // Nova despesa
+  novaDespesa: any = {
+    id: 0,
+    data: '',
+    categoria: '',
+    descricao: '',
+    valor: 0,
+    fornecedor: ''
+  };
 
   categorias: string[] = ['Reposição de Estoque', 'Contas Fixas', 'Marketing', 'Outros'];
 
@@ -65,7 +114,7 @@ export class LayoutDespesasComponent {
     const percentual = this.totalMesAnterior ? (valor / this.totalMesAnterior) * 100 : 0;
     return {
       valor: valor > 0 ? valor : 0,  // não mostrar valor negativo
-      percentual: percentual > 0 ? percentual.toFixed(1) : '0.0'
+      percentual: percentual // retornando como número para comparação
     };
   }
 
@@ -88,15 +137,87 @@ export class LayoutDespesasComponent {
     });
   }
 
+  // Implementação do ngOnInit
+  ngOnInit(): void {
+    // Inicialização do componente
+    console.log('Componente de despesas inicializado');
+  }
+
+  // Métodos para o modal
   abrirModal() {
-    alert('Abrir modal de nova despesa...');
+    // Resetar o formulário
+    this.novaDespesa = {
+      id: 0,
+      data: new Date().toISOString().split('T')[0],
+      categoria: '',
+      descricao: '',
+      valor: 0,
+      fornecedor: ''
+    };
+    
+    this.modoEdicao = false;
+    this.showModal = true;
   }
-
+  
+  fecharModal(event: any) {
+    // Fechar apenas se clicou no fundo ou no botão de fechar
+    if (event.target.classList.contains('modal-overlay') || 
+        event.target.classList.contains('btn-close') ||
+        event.target.classList.contains('btn-secondary')) {
+      this.showModal = false;
+    }
+  }
+  
+  salvarDespesa() {
+    // Validar campos obrigatórios
+    if (!this.novaDespesa.data || !this.novaDespesa.categoria || !this.novaDespesa.descricao || !this.novaDespesa.valor) {
+      alert('Por favor, preencha todos os campos obrigatórios!');
+      return;
+    }
+    
+    // Se for uma nova despesa, gerar ID único
+    if (this.novaDespesa.id === 0) {
+      // Gerar ID único (simulado)
+      this.novaDespesa.id = Math.floor(Math.random() * 10000);
+      // Adicionar à lista de despesas
+      this.despesas.push({...this.novaDespesa});
+    } else {
+      // Atualizar despesa existente
+      const index = this.despesas.findIndex(d => d.id === this.novaDespesa.id);
+      if (index !== -1) {
+        this.despesas[index] = {...this.novaDespesa};
+      }
+    }
+    
+    // Fechar o modal
+    this.showModal = false;
+  }
+  
   editarDespesa(despesa: any) {
-    alert('Editar: ' + JSON.stringify(despesa));
+    // Copiar dados da despesa para o formulário
+    this.novaDespesa = {...despesa};
+    this.modoEdicao = true;
+    this.showModal = true;
   }
-
+  
   excluirDespesa(id: number) {
-    this.despesas = this.despesas.filter(d => d.id !== id);
+    // Confirmar exclusão
+    if (confirm('Tem certeza que deseja excluir esta despesa?')) {
+      // Filtrar a despesa da lista
+      this.despesas = this.despesas.filter(d => d.id !== id);
+    }
+  }
+  
+  adicionarCategoria() {
+    const novaCategoria = prompt('Digite o nome da nova categoria:');
+    if (novaCategoria && novaCategoria.trim() !== '') {
+      // Verifica se a categoria já existe
+      if (!this.categorias.includes(novaCategoria.trim())) {
+        this.categorias.push(novaCategoria.trim());
+        this.novaDespesa.categoria = novaCategoria.trim();
+      } else {
+        alert('Esta categoria já existe!');
+      }
+    }
   }
 }
